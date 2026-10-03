@@ -1,6 +1,8 @@
 # Collection study: all scintillation photons transported.
 # Start with one carbon event; full uranium transport is much heavier.
-/run/numberOfThreads 15
+#/run/numberOfThreads 15
+/run/useMaximumLogicalCores
+
 /run/initialize
 /gun/position 0 0 -5 mm
 /gun/direction 0 0 1

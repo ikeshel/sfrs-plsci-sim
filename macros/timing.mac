@@ -1,6 +1,8 @@
 # Collection study: all scintillation photons transported.
 # Multiple events for timing studies; increase statistics for precise estimates.
-/run/numberOfThreads 15
+#/run/numberOfThreads 15
+/run/useMaximumLogicalCores
+
 /run/initialize
 /gun/position 90 40 -5 mm
 /gun/direction 0 0 1

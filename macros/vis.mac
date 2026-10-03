@@ -1,7 +1,8 @@
 # One worker keeps short interactive runs simple. Set to 10 before initialization if desired.
 /run/numberOfThreads 1
 /run/initialize
-/vis/open OGLSQt
+# OGLS selects stored OpenGL with Qt or X11, depending on the build.
+/vis/open OGLS
 /vis/drawVolume
 
 /vis/viewer/set/viewpointVector 1 1 2

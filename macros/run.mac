@@ -1,5 +1,7 @@
 # Batch simulation: ten Geant4 worker threads.
-/run/numberOfThreads 10
+#/run/numberOfThreads 15
+/run/useMaximumLogicalCores
+
 /run/initialize
 # Position (x y z), upstream of the slab; direction points along +z.
 /gun/position 0 0 -5 mm

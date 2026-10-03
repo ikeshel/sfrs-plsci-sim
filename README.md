@@ -45,7 +45,7 @@ Existing commands and macros work with this layout. Rebuild after editing C++ fi
 
 `macros/vis.mac` selects one worker for its ten-event interactive demonstration. It can also use 10 workers by changing its first `/run/numberOfThreads` command, but threading overhead usually outweighs the benefit for such short runs. User macros must now include `/run/initialize` before visualization or beam commands.
 
-## Open the Geant4 GUI
+## Open interactive Geant4 visualization
 
 Open Terminal and run:
 
@@ -53,7 +53,7 @@ Open Terminal and run:
 ./build/sfrs-plsci-sim --beam C --ui --macro macros/vis.mac --output output/interactive.root
 ```
 
-This opens the Qt window showing the scintillator and ten carbon events at two positions. Replace `--beam C` with `--beam U` for uranium. The slab is only 1 mm thick; rotate the view to see its broad face.
+This shows the scintillator and ten carbon events at two positions. With a Qt-enabled Geant4 build, it opens the Qt interface. This Debian installation now includes Qt 6, so `--ui` opens the integrated Qt interface with its viewer, menus, toolbar, command panel, and command browser. With an X11-only build, it opens a separate graphics window and accepts commands in the terminal. The visualization macros use `/vis/open OGLS`, which selects the available stored OpenGL driver on either build. A desktop display is required. To request the Qt viewer explicitly, use `/vis/open OGLSQt`; this requires Qt support. The supplied macros retain `OGLS` so they also work on X11-only builds. Replace `--beam C` with `--beam U` for uranium. The slab is only 1 mm thick; rotate the view to see its broad face.
 
 In the GUI's command field, run more events with:
 
@@ -187,6 +187,67 @@ root -l 'macros/viewSiPM_onePad.C("output/C_sipm_first_photon.root")'
 ```
 
 `scan.mac` sets the `scanEvents` alias to 20 events per position, loads `scan_setup.mac` once, then executes `scan_points.mac`. The latter calls nine reusable files in `macros/positions/`, spanning x=-120,-90,-60,-30,0,30,60,90,120 mm at y=40 mm and z=-5 mm. Position files contain only `/gun/position`; initialization and `beamOn` belong to the parent macros. Edit `scanEvents` in `scan.mac`, the coordinates in the position files, or the call list in `scan_points.mac`. Full optical transport is enabled, and all nine runs accumulate into one ROOT file.
+
+### Choose workers according to CPU count
+
+`macros/scan_setup.mac` automatically selects the number of workers using the
+computer's detected logical CPU count:
+
+```text
+/run/useMaximumLogicalCores
+/run/initialize
+```
+
+Use `/run/useMaximumLogicalCores` in place of a fixed command such as
+`/run/numberOfThreads 15`. It must appear before `/run/initialize`. The same
+macro adapts to different computers without editing the worker count. A machine
+reporting 8 logical CPUs selects 8 workers; one reporting 20 selects 20.
+Logical CPUs can include hardware threads, so this count is not necessarily the
+number of physical cores. On Linux, `nproc` reports the CPUs available to the
+current process; affinity or resource limits can make this differ from Geant4's
+detected count.
+
+For a fixed worker count in a macro, use, for example:
+
+```text
+/run/numberOfThreads 7
+/run/initialize
+```
+
+Seven workers is a reasonable starting point on this 8-logical-CPU PC to leave
+capacity for desktop use. More workers do not guarantee a faster run; compare
+elapsed times for your simulation, especially with full optical transport.
+
+The environment variable `G4FORCENUMBEROFTHREADS` overrides both the application's
+thread setting and the macro's worker-count commands. Set it for just one run:
+
+```sh
+G4FORCENUMBEROFTHREADS=7 ./build/sfrs-plsci-sim \
+  --beam C --macro macros/scan.mac --output output/C_scan.root
+```
+
+Use `max` to select all detected logical CPUs:
+
+```sh
+G4FORCENUMBEROFTHREADS=max ./build/sfrs-plsci-sim \
+  --beam C --macro macros/scan.mac --output output/C_scan.root
+```
+
+Alternatively, export a setting for subsequent runs in the current terminal:
+
+```sh
+export G4FORCENUMBEROFTHREADS=7
+```
+
+Remove an exported override to let the macro choose the worker count again:
+
+```sh
+unset G4FORCENUMBEROFTHREADS
+```
+
+Changing the worker count does not require rebuilding the executable.
+
+### Inspect scan results
 
 The event tree records `run_id`, `beam_x_mm`, `beam_y_mm`, and `beam_z_mm` from each actual generated primary vertex. Event IDs restart at each run; `(run_id,event)` identifies an event within this file. The run ID starts at 0 and follows the order of the position calls. Coordinates are also recorded correctly when alternating beam positions are enabled elsewhere.
 

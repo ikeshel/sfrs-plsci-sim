@@ -6,7 +6,8 @@
 /beam/alternatePositions false
 /optics/transportPhotons true
 /optics/maxPhotons 100
-/vis/open OGLSQt
+# OGLS selects stored OpenGL with Qt or X11, depending on the build.
+/vis/open OGLS
 /vis/drawVolume
 /vis/viewer/set/style wireframe
 /vis/viewer/set/viewpointVector 0 0 1
