@@ -1,0 +1,2 @@
+# Beam position in mm. Edit y=40 to scan at another height.
+/gun/position -60 40 -5 mm

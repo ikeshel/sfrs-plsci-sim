@@ -1,0 +1,23 @@
+# One worker keeps short interactive runs simple. Set to 10 before initialization if desired.
+/run/numberOfThreads 1
+/run/initialize
+/vis/open OGLSQt
+/vis/drawVolume
+
+/vis/viewer/set/viewpointVector 1 1 2
+/vis/viewer/set/style wireframe
+
+/vis/scene/add/axes 0 0 0 5 cm
+/vis/scene/add/trajectories smooth
+/vis/scene/endOfEventAction accumulate 50
+# Both positions are in one run, retained for refresh and rotation.
+/vis/scene/endOfRunAction refresh
+
+# Alternate the two positions within one run, so refresh retains both.
+/gun/position 20 0 -5 mm
+/gun/direction 0 0 1
+/beam/secondPosition -20 0 -5 mm
+/beam/alternatePositions true
+/run/beamOn 40
+
+/vis/viewer/flush

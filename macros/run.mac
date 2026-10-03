@@ -1,0 +1,7 @@
+# Batch simulation: ten Geant4 worker threads.
+/run/numberOfThreads 10
+/run/initialize
+# Position (x y z), upstream of the slab; direction points along +z.
+/gun/position 0 0 -5 mm
+/gun/direction 0 0 1
+/run/beamOn 10000

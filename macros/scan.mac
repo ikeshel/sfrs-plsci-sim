@@ -1,0 +1,4 @@
+# Nine x positions, 20 events per position; all stored in one ROOT file.
+/control/alias scanEvents 20
+/control/execute macros/scan_setup.mac
+/control/execute macros/scan_points.mac

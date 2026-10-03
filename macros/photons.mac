@@ -1,0 +1,23 @@
+# One incident ion, with up to 100 scintillation photons transported.
+/run/numberOfThreads 1
+/run/initialize
+/gun/position 100 30 -5 mm
+/gun/direction 0 0 1
+/beam/alternatePositions false
+/optics/transportPhotons true
+/optics/maxPhotons 100
+/vis/open OGLSQt
+/vis/drawVolume
+/vis/viewer/set/style wireframe
+/vis/viewer/set/viewpointVector 1 1 2
+/vis/scene/add/trajectories smooth
+/vis/modeling/trajectories/create/drawByParticleID photonColours
+/vis/modeling/trajectories/photonColours/set opticalphoton yellow
+/vis/modeling/trajectories/photonColours/set e- red
+/vis/modeling/trajectories/photonColours/set gamma green
+/vis/modeling/trajectories/photonColours/setDefault blue
+/vis/modeling/trajectories/select photonColours
+/vis/scene/endOfEventAction accumulate 1
+/vis/scene/endOfRunAction refresh
+/run/beamOn 1
+/vis/viewer/flush

@@ -1,0 +1,27 @@
+# Run each position with the scanEvents alias set by the main macro.
+/control/execute macros/positions/x_m120.mac
+/run/beamOn {scanEvents}
+
+/control/execute macros/positions/x_m090.mac
+/run/beamOn {scanEvents}
+
+/control/execute macros/positions/x_m060.mac
+/run/beamOn {scanEvents}
+
+/control/execute macros/positions/x_m030.mac
+/run/beamOn {scanEvents}
+
+/control/execute macros/positions/x_000.mac
+/run/beamOn {scanEvents}
+
+/control/execute macros/positions/x_p030.mac
+/run/beamOn {scanEvents}
+
+/control/execute macros/positions/x_p060.mac
+/run/beamOn {scanEvents}
+
+/control/execute macros/positions/x_p090.mac
+/run/beamOn {scanEvents}
+
+/control/execute macros/positions/x_p120.mac
+/run/beamOn {scanEvents}

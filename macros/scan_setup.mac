@@ -1,0 +1,7 @@
+# Shared scan setup; initialize once before executing position macros.
+/run/numberOfThreads 15
+/run/initialize
+/gun/direction 0 0 1
+/beam/alternatePositions false
+/optics/transportPhotons true
+/optics/maxPhotons -1
